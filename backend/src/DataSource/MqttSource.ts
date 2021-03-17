@@ -48,6 +48,7 @@ export class MqttSource implements DataSource<MqttOptions> {
     }
 
     const client = mqttConnect(url, {
+      protocolVersion: 5,
       resubscribe: false,
       rejectUnauthorized: options.certValidation,
       username: options.username,
@@ -98,10 +99,22 @@ export class MqttSource implements DataSource<MqttOptions> {
 
   public publish(msg: MqttMessage) {
     if (this.client) {
-      this.client.publish(msg.topic, msg.payload ? Base64Message.toUnicodeString(msg.payload) : '', {
-        qos: msg.qos,
-        retain: msg.retain,
-      })
+      var opts
+      if (msg.responseTopic) {
+        opts = {
+          qos: msg.qos,
+          retain: msg.retain,
+          properties: {
+            responseTopic: msg.responseTopic,
+          },
+        }
+      } else {
+        opts = {
+          qos: msg.qos,
+          retain: msg.retain,
+        }
+      }
+      this.client.publish(msg.topic, msg.payload ? Base64Message.toUnicodeString(msg.payload) : '', opts)
     }
   }
 

@@ -71,7 +71,7 @@ function jsonToPropertyPaths(ast: JsonAst, previousPath: Array<string> = []): Ar
     children = ast.children.map((value, idx) => jsonToPropertyPaths(value, previousPath.slice().concat([String(idx)])))
   } else if (ast.type === 'Object') {
     children = ast.children.map(property => {
-      const path = property.key.value.replace('.', '\\.')
+      const path = property.key.value.replace(/\./g, '\\.')
 
       return jsonToPropertyPaths(property.value, previousPath.slice().concat([path]))
     })

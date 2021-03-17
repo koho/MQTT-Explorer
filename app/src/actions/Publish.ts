@@ -11,6 +11,13 @@ export const setTopic = (topic?: string): Action => {
   }
 }
 
+export const setResponseTopic = (responseTopic?: string): Action => {
+  return {
+    responseTopic,
+    type: ActionTypes.PUBLISH_SET_RESP_TOPIC,
+  }
+}
+
 export const setPayload = (payload?: string): Action => {
   return {
     payload,
@@ -46,6 +53,7 @@ export const publish = (connectionId: string) => (dispatch: Dispatch<Action>, ge
     payload: state.publish.payload ? Base64Message.fromString(state.publish.payload) : null,
     retain: state.publish.retain,
     qos: state.publish.qos,
+    responseTopic: state.publish.responseTopic,
   }
   rendererEvents.emit(publishEvent, mqttMessage)
 }

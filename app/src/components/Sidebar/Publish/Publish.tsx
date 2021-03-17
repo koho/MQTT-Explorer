@@ -14,6 +14,7 @@ import { EditorModeSelect } from './EditorModeSelect'
 import { globalActions, publishActions } from '../../../actions'
 import { KeyCodes } from '../../../utils/KeyCodes'
 import { default as AceEditor } from 'react-ace'
+import ResponseTopic from "./ResponseTopic";
 
 interface Props {
   connectionId?: string
@@ -94,6 +95,7 @@ function Publish(props: Props) {
             editorRef={editorRef as any}
           />
           <RetainSwitch />
+          <ResponseTopic />
         </div>
         <PublishHistory history={history} />
       </div>

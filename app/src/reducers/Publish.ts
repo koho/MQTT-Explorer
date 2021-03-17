@@ -2,16 +2,18 @@ import { createReducer } from './lib'
 
 export interface PublishState {
   manualTopic?: string
+  responseTopic?: string
   payload?: string
   retain: boolean
   editorMode: string
   qos: 0 | 1 | 2
 }
 
-export type Action = SetPayload | SetTopic | ToggleRetain | SetEditorMode | SetQoS
+export type Action = SetPayload | SetTopic | ToggleRetain | SetEditorMode | SetQoS | SetResponseTopic
 
 export enum ActionTypes {
   PUBLISH_SET_TOPIC = 'PUBLISH_SET_TOPIC',
+  PUBLISH_SET_RESP_TOPIC = 'PUBLISH_SET_RESP_TOPIC',
   PUBLISH_SET_PAYLOAD = 'PUBLISH_SET_PAYLOAD',
   PUBLISH_TOGGLE_RETAIN = 'PUBLISH_TOGGLE_RETAIN',
   PUBLISH_SET_EDITOR_MODE = 'PUBLISH_SET_EDITOR_MODE',
@@ -26,6 +28,11 @@ export interface SetPayload {
 export interface SetTopic {
   type: ActionTypes.PUBLISH_SET_TOPIC
   topic?: string
+}
+
+export interface SetResponseTopic {
+  type: ActionTypes.PUBLISH_SET_RESP_TOPIC
+  responseTopic?: string
 }
 
 export interface SetQoS {
@@ -50,6 +57,7 @@ const initialState: PublishState = {
 
 export const publishReducer = createReducer(initialState, {
   PUBLISH_SET_TOPIC: setTopic,
+  PUBLISH_SET_RESP_TOPIC: setResponseTopic,
   PUBLISH_SET_PAYLOAD: setPayload,
   PUBLISH_TOGGLE_RETAIN: toggleRetain,
   PUBLISH_SET_EDITOR_MODE: setEditorMode,
@@ -74,6 +82,13 @@ function setQoS(state: PublishState, action: SetQoS) {
   return {
     ...state,
     qos: action.qos,
+  }
+}
+
+function setResponseTopic(state: PublishState, action: SetResponseTopic) {
+  return {
+    ...state,
+    responseTopic: action.responseTopic,
   }
 }
 

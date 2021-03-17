@@ -36,6 +36,7 @@ export interface MqttMessage {
   retain: boolean
   // Set if QoS is > 0 on received messages
   messageId: number | undefined
+  responseTopic: string
 }
 
 export function makePublishEvent(connectionId: string): Event<MqttMessage> {
